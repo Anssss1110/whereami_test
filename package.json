@@ -1,0 +1,25 @@
+{
+  "name": "whereami_test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@splidejs/vue-splide": "^0.6.12",
+    "@tailwindcss/postcss": "^4.1.5",
+    "vue": "^3.5.13",
+    "vue3-carousel": "github:ismail9k/vue3-carousel",
+    "vue3-easy-data-table": "^1.5.47"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.5",
+    "vite": "^6.3.5"
+  }
+}
