@@ -1,32 +1,23 @@
 <template>
   <!-- 下拉菜单 -->
-  <div class="relative inline-block text-left p-4">
-    <div
-      @mouseenter="showDropdown = true"
-      @mouseleave="showDropdown = false"
-      class="cursor-pointer text-blue-600 font-semibold"
-    >
-      More Research
-      <span class="ml-1"><img src="/arrow.png" alt="github" style="height: 0.7em; vertical-align: middle;" /></span>
-      
-      <div
-        v-if="showDropdown"
-        class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-50"
-      >
-      
-        <a
-          v-for="item in menuItems"
-          :key="item.name"
-          :href="item.link"
-          target="_blank"
-          class="block px-4 py-2 hover:bg-gray-100 text-gray-800"
-        >
-          {{ item.name }}
-          <span v-if="item.hot" class="ml-1">📌</span>
-        </a>
-      </div>
-    </div>
+  <div class="dropdown-container" @click="toggleDropdown">
+  <div class="dropdown-trigger">
+    More Research
+    <span><img src="/arrow.png" alt="arrow" class="dropdown-arrow" /></span>
   </div>
+
+  <div v-if="showDropdown" class="dropdown-menu">
+    <a
+      v-for="item in menuItems"
+      :key="item.name"
+      :href="item.link"
+      target="_blank"
+      class="dropdown-item"
+    >
+      {{ item.name }}<span v-if="item.hot" class="hot-icon">🔥</span>
+    </a>
+  </div>
+</div>
 
   <div class="container">
     <main>
@@ -54,7 +45,7 @@
         <img src="/github2.png" alt="github" style="height: 1.5em; vertical-align: middle;" /> Code</a>
       <a href="#" class="tag-button">💻 Dataset</a>
       <a href="#" class="tag-button">🙌 Visualize</a>
-      <a href="#" class="tag-button">🏆 Leaderboard</a>
+      <a href="#leaderboard" class="tag-button">🏆 Leaderboard</a>
       </div>
 
       <div class="spacer"></div>
@@ -74,7 +65,7 @@ Leveraging curated high-quality data and a unique evaluation strategy, we conduc
 
     </main>
     <div class="spacer2"></div>
-    <h1 style="font-size: 20px;">Leaderboard</h1>
+    <h1 id="leaderboard" style="font-size: 20px;">Leaderboard</h1>
 
     <div class="spacer2"></div>
 
@@ -104,7 +95,10 @@ Leveraging curated high-quality data and a unique evaluation strategy, we conduc
     </div>
     <div class="spacer"></div>
 
-  <footer class="footer" >
+  </div>
+
+  <footer class="page-footer">
+  <div class="footer-content">
     This website is adapted from
     <a href="https://mathverse-web.github.io/" class="text-blue-500 hover:underline">MathVerse</a>
     and
@@ -112,8 +106,10 @@ Leveraging curated high-quality data and a unique evaluation strategy, we conduc
     licensed under a
     <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="text-blue-500 hover:underline">
     Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-</footer>
   </div>
+
+</footer>
+
 </template>
 
 <script setup>
@@ -124,6 +120,10 @@ import Vue3EasyDataTable from 'vue3-easy-data-table'
 import { ref } from 'vue'
 
 const showDropdown = ref(false)
+
+function toggleDropdown() {
+  showDropdown.value = !showDropdown.value
+}
 
 const tableItems = [ 
   { rank: 1, model: "Kimi k1.5 🥇", f1: 64.2, precision: 92.0, recall: 49.3, avgscore: 1.4 },
@@ -169,6 +169,79 @@ body {
   margin: 0;
   background: #f9f9f9;
 }
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+  padding: 1rem;
+}
+
+.dropdown-trigger {
+  cursor: pointer;
+  font-weight: 600;
+  color: #2563eb; /* 蓝色文字 */
+  position: relative;
+}
+
+.dropdown-arrow {
+  height: 0.7em;
+  vertical-align: middle;
+  margin-left: 0.25em;
+}
+
+.dropdown-container {
+  display: inline-block;
+  position: relative;
+  padding: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  color: #2563eb; /* 蓝色 */
+}
+
+.dropdown-trigger {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-arrow {
+  height: 0.7em;
+  margin-left: 0.25em;
+  vertical-align: middle;
+}
+
+.dropdown-menu {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  width: 14rem;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #1f2937;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f3f4f6;
+}
+
+.hot-icon {
+  margin-right: 0.25em;
+}
+
+
+.hot-icon {
+  margin-right: 0.5rem;
+}
+
 
 .container {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -266,9 +339,24 @@ sup {
   margin: 0 auto; /* 居中 */
 }
 
-footer {
-  margin-top: 2rem;
-  font-size: 0.85rem;
-  color: #777;
+.page-footer {
+  background-color: #f0f0f0; 
+  width: 1000px;               /* 占满整个视口宽度 */
+  padding: 1rem 0;  
+  font-size: 0.85rem;          
+  margin-top: 4rem;           /* 与上面内容的间隔 */
 }
+
+.footer-content {
+  max-width: 1000px;       
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: center;
+  font-size: 14px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 </style>
